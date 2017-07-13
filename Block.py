@@ -30,9 +30,16 @@ class Block(object):
                 if self.pos[1] + (i + 1) * 20 > height:
                     self.pos[1] = height - (i + 1) * 20
                     self.active = False
+                    
+    def handle_collisions(self, blocks):
+        for i, row in enumerate(self.shp):
+            for j, item in enumerate(row):
+                pass
+                
                            
     def update(self, dt, blocks):
         if self.active:
             self.pos[1] += dt
             self.check_boundries()
+            # self.handle_collisions(blocks)
         
