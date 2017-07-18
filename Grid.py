@@ -6,10 +6,16 @@ class Grid(object):
         
         self.dim = dim #Tuple
         self.grid_size = screen_size[0] / (dim[0] * 1.)
-        print(self.grid_size)
+        self.blocks = []
     
     
     def create_newblock(self):
-        self.active = Block([dim[0]
+        self.blocks.append(Block([5,5], self.grid_size, (150, 0, 150), "I"))
+        self.blocks.append(Block([8,7], self.grid_size, (150, 0, 150), "T"))
+        
+    def show(self):
+        for block in self.blocks:
+            block.show()
+            block.update(0.2)
         
     

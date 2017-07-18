@@ -1,3 +1,5 @@
+import time
+
 class Block(object):
     
     shapes = {"I":[[1],[1],[1],[1]],
@@ -9,20 +11,23 @@ class Block(object):
               "Z":[[1,1,0],[0,1,1]],
                    }
     
-    def __init__(self, pos, clr, shp):
+    def __init__(self, pos, a, clr, shp):
         
         self.clr = clr
         self.pos = pos
         self.shp = self.shapes[shp]
         self.active = True
+        self.a = a
+        
+        self.calc_pos()
         
     def show(self):
         
         for i, row in enumerate(self.shp):
-            for j, item in enumerate(row):
-                if item == 1:
+            for j, pos in enumerate(row):
+                if not pos == 0:
                     fill(self.clr[0], self.clr[1], self.clr[2])
-                    rect(self.pos[0] + j * 20, self.pos[1] + i * 20, 20, 20)
+                    rect(pos[0] * self.a, pos[1] * self.a, self.a, self.a)
                     
     def check_boundries(self):
         for i, row in enumerate(self.shp):
@@ -32,14 +37,20 @@ class Block(object):
                     self.active = False
                     
     def handle_collisions(self, blocks):
-        for i, row in enumerate(self.shp):
-            for j, item in enumerate(row):
-                pass
+        pass
                 
                            
-    def update(self, dt, blocks):
-        if self.active:
-            self.pos[1] += dt
-            self.check_boundries()
-            # self.handle_collisions(blocks)
+    def update(self, dt):
+        for i, row in enumerate(self.shp):
+            for j, item in enumerate(row):
+                if not self.shp[i][j] == 0:
+                    self.shp[i][j][1] += 1
+                    time.sleep(dt)
+            
+    def calc_pos(self):
+        for i, row in enumerate(self.shp):
+            for j, item in enumerate(row):
+                if not self.shp[i][j] == 0:
+                    self.shp[i][j] = [self.pos[0] + j, self.pos[1] + i]
+        
         
