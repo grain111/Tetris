@@ -29,34 +29,44 @@ class Block(object):
                     fill(self.clr[0], self.clr[1], self.clr[2])
                     rect(pos[0] * self.a, pos[1] * self.a, self.a, self.a)
                     
-    def check_boundries(self, lim):
+    def items(self):
         for i, row in enumerate(self.shp):
             for j, item in enumerate(row):
-                if not item == 0:
-                    if item[1] == lim:
-                        self.active = False
+                yield i, j, item
+        
                     
+    def check_boundries(self, lim):
+        for i, j, item in self.items():
+            if not item == 0:
+                if item[1] == lim:
+                    self.active = False
+                    
+    # def handle_collisions(self, blocks, dir):
+    #     for i, row in enumerate(self.shp):
+    #         for j, item in enumerate(row):
+    #             if not item == 0:
+    #                 for block in blocks:
+    #                     if not block == self:
+    #                         for rw in block.shp:
+    #                             if dir == 1 and [item[0], item[1]+1] in rw:
+    #                                 self.active = False
+    
     def handle_collisions(self, blocks, dir):
-        for i, row in enumerate(self.shp):
-            for j, item in enumerate(row):
-                if not item == 0:
-                    #bottom
-                    for block in blocks:
-                        if not block == self:
-                            for rw in block.shp:
-                                if dir == 1 and [item[0], item[1]+1] in rw:
-                                    self.active = False
-                
-                           
+        for i, j, item in self.items():
+            for block in blocks:
+                if not block == self and not item == 0:
+                    for rw in block.shp:
+                        if dir == 1 and [item[0], item[1]+1] in rw:
+                            self.active = False            
+                            
     def update(self, dt):
         if self.active:
             self.pos[1] += 1
             self.calc_pos()
             
     def calc_pos(self):
-        for i, row in enumerate(self.shp):
-            for j, item in enumerate(row):
-                if not self.shp[i][j] == 0:
-                    self.shp[i][j] = [self.pos[0] + j, self.pos[1] + i]
+        for i, j, item in self.items():
+            if not self.shp[i][j] == 0:
+                self.shp[i][j] = [self.pos[0] + j, self.pos[1] + i]
         
         

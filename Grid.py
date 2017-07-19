@@ -15,10 +15,19 @@ class Grid(object):
     
     
     def create_newblock(self):
-        self.blocks.append(Block([randint(1,self.dim[0]), 4],
+        # self.blocks.append(Block([randint(1,self.dim[0]), 4],
+        #                          self.grid_size, 
+        #                          (150, 0, 150), 
+        #                          "O"))
+        
+        self.blocks.append(Block([5, 4],
                                  self.grid_size, 
                                  (150, 0, 150), 
                                  "O"))
+        self.blocks.append(Block([5, 9],
+                                 self.grid_size, 
+                                 (150, 0, 150), 
+                                 "T"))
         
     def run(self):
         for block in self.blocks:
